@@ -94,7 +94,7 @@ use vars qw(@ISA @EXPORT @EXPORT_OK);
 # Out:  predir : directory of predicted proteins from test list
 ################################################################
 
-sub generate_feature_for_convolution {
+sub generate_feature_for_convolution { 
 	my ($logfile, $outdir, $trlist_ref, $telist_ref, $featdirs, $featopts) = @_;
 
 	################################################################
@@ -161,18 +161,18 @@ sub generate_feature_for_convolution {
 		}
 		$count++;
 
-		$ssafile = $ssadir . "$_.ssa";
-		$pssmfile = $pssmdir . "$_.pssm";
-		@files = ($ssafile, $pssmfile);
+		my $ssafile = $ssadir . "$_.ssa";
+		my $pssmfile = $pssmdir . "$_.pssm";
+		my @files = ($ssafile, $pssmfile);
 
-		$prot = $_;
+		my $prot = $_;
 		foreach my $dir (@predirs){
 			next unless (-d $dir);
 			my $probfile = $dir . "$prot.prob";
 			push (@files, $probfile) if (-f $probfile);
 		}
 
-		@features = make_features(\@files, $featopts);
+		my @features = make_features(\@files, $featopts);
 		unless (check_err($features[0], $logfile)){
        $TFfile = $outdir . "$_.fea";
        open (OUT, ">$TFfile") or return "err: newDN: Couldn't open file $TFfile\n";
