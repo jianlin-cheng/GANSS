@@ -59,6 +59,8 @@ my @archinfo = split(/,/, $arch);
 
 my $trainfile = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/lists/dncon-train.lst";
 my $testfile = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/lists/dncon-test.lst";
+my $casp9file = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/lists/casp9.lst";
+my $casp10file = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/lists/casp10.lst";
 my $ssadir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/ssa/";
 my $pssmdir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/pssm/";
 my $overdir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/Deep1Dconv_ss/"; ## this is jie's working directory
@@ -83,6 +85,15 @@ my $protlist = `cat $testfile`;
 my @testlist = split (/\n/, $protlist);
 
 generate_feature_for_convolution(	$logfile, $outdir, \@trainlist, \@testlist,	\@dirs, \@options);
+
+
+my $protlist = `cat $casp9file`;
+my @trainlist = split (/\n/, $protlist);
+my $protlist = `cat $casp10file`;
+my @testlist = split (/\n/, $protlist);
+
+generate_feature_for_convolution(	$logfile, $outdir, \@trainlist, \@testlist,	\@dirs, \@options);
+
 
 
 ################################################################

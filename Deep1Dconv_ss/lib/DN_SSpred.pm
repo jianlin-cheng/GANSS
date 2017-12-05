@@ -1095,7 +1095,7 @@ sub all_dnss_files {
 	my @list = @{ $list_ref };
 	$pssmdir .= "/" unless $pssmdir =~ m/\/$/;
 	$outdir .= "/" unless $outdir =~ m/\/$/;
-	my $ssadir = "../data/ssa/";
+	my $ssadir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/ssa/";
 
 	return "err: all_dnss_files: $pssmdir not found" unless (-d $pssmdir);
 	return "err: all_dnss_files: $outdir not found" unless (-d $outdir);
@@ -1233,9 +1233,9 @@ sub make_dnss_file {
 sub score_probs {
 	my ($predir_ref, $list_ref, $reduced, $tag) = @_;
 	
-	my $ssadir = "../data/ssa/";
-	my $pssmdir = "../data/pssm/";
-	my $dnssdir = "../../tmp/";
+	my $ssadir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/ssa/";
+	my $pssmdir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/pssm/";
+	my $dnssdir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/tmp/";
 
 	# Temporary dnss files are made with predictions
 	print "Making temp dnss files...\n";
@@ -1243,7 +1243,7 @@ sub score_probs {
 
 	# No scorefile is made if no tag is specified
 	my $scorefile = "";
-	if ($tag){ $scorefile = "../data/ss_pred/scores/$tag.score"; }
+	if ($tag){ $scorefile = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/ss_pred/scores/$tag.score"; }
 
 	# Predictions are scored
 	print "Scoring...\n";
@@ -1264,12 +1264,12 @@ sub score_probs {
 
 sub score_dnss {
 	my ($dnssdir, $list_ref, $tag) = @_;
-	my $ssadir = "../data/ssa/";
+	my $ssadir = "/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/data/ssa/";
 
 	# No scorefile is made if no tag is specified
 	my $scorefile = "";
-	if ($tag){ $scorefile = "../data/ss_pred/scores/$tag.score"; }
-	
+	if ($tag){ $scorefile = "$dnssdir/$tag.score"; }
+	print "Saving to $scorefile\n";
 	# Predictions are scored
 	my @results = all_score ($ssadir, $dnssdir, $scorefile, $list_ref);
 	return @results;	
