@@ -81,7 +81,7 @@ perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  
 cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
-THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/train_deepcov_ss.py 15  5 5   nadam '6'  100 3  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/results/
+THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
 ```
 
 **(F) Start training DeepCov_SS** 
@@ -91,16 +91,16 @@ Note: This is 1d convolutional neural network based secondary structure predicti
 (a) generate 15 window feature without atchley and aa
 
 ```
-cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
+cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/
 perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
    ** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ 
 ```
 
 (b) training DeepCov_SS on  15 window feature without atchley and aa
 ```
-cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
-THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
+THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/train_deepcov_ss.py 15  5 5   nadam '6'  100 3  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/results/
 ```
 
