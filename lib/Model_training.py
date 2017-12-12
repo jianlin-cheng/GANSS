@@ -588,7 +588,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         found = 0
         while (found == 0):
             print "Checking file ",scorefile
-            time.sleep(5) 
+            time.sleep(15) 
             if os.path.exists(scorefile):
               found = 1
         
@@ -626,7 +626,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
             found = 0
             while (found == 0):
                 print "Checking file ",check_file
-                time.sleep(5) 
+                time.sleep(15) 
                 if os.path.exists(check_file):
                   found = 1
             print "Temporary visualization saved to file ",summary_file
@@ -641,7 +641,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
             found = 0
             while (found == 0):
                 print "Checking file ",image_file
-                time.sleep(5) 
+                time.sleep(15) 
                 if os.path.exists(image_file):
                   found = 1
             print "Temporary visualization saved to file ",image_file
@@ -1098,7 +1098,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
         found = 0
         while (found == 0):
             print "Checking file ",scorefile
-            time.sleep(5) 
+            time.sleep(15) 
             if os.path.exists(scorefile):
               found = 1
         
@@ -1130,7 +1130,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
             found = 0
             while (found == 0):
                 print "Checking file ",check_file
-                time.sleep(5) 
+                time.sleep(15) 
                 if os.path.exists(check_file):
                   found = 1
             print "Temporary visualization saved to file ",summary_file
@@ -1145,7 +1145,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
             found = 0
             while (found == 0):
                 print "Checking file ",image_file
-                time.sleep(5) 
+                time.sleep(15) 
                 if os.path.exists(image_file):
                   found = 1
             print "Temporary visualization saved to file ",image_file
