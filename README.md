@@ -82,7 +82,7 @@ srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
 cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
-THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
+THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
 ```
 
 **(F) Start training DeepCov_SS** 
