@@ -744,22 +744,7 @@ sub features {
 
 		# Adds atchley features
 		push (@printarray, @atchley) if ($atch);
-   
-    #if ($atch)
-    #{
-    #  print "arch: @atchley\n";
-    #}
 
-    #if ($pssm)
-    #{
-    #  print "pssm: @pssmfeat\n";
-    #}
-    #if ($bound)
-    #{
-    #  print "bound: @boundfeat\n";
-    #}
-    
-    #print "printarray: @printarray\n";
 		# Concatenates features onto a feature line
 		my $line;
 		for (@printarray){
