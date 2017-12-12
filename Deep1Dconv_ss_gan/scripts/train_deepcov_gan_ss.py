@@ -15,17 +15,18 @@ from Model_training import DeepSS_1dconv_gan_train_win_filter_layer_opt
 
 
 import sys
-if len(sys.argv) != 8:
+if len(sys.argv) != 9:
           print 'please input the right parameters'
           sys.exit(1)
 
-nb_layers=int(sys.argv[1]) #10
-filtsize=sys.argv[2] #6_10
-out_epoch=int(sys.argv[3]) #100
-batch_size=int(sys.argv[4]) #1000
-AA_win=int(sys.argv[5]) #15
-feature_dir = sys.argv[6]
-outputdir = sys.argv[7]
+nb_filters=int(sys.argv[1]) #21
+nb_layers=int(sys.argv[2]) #10
+filtsize=sys.argv[3] #6_10
+out_epoch=int(sys.argv[4]) #100
+batch_size=int(sys.argv[5]) #1000
+AA_win=int(sys.argv[6]) #15
+feature_dir = sys.argv[7]
+outputdir = sys.argv[8]
 
 #nb_layers= 10
 #filtsize= '10'
@@ -41,7 +42,7 @@ train_datafile=GLOBAL_PATH+'/GANSS_Datasets/dncov_training.list'
 val_datafile=GLOBAL_PATH+'/GANSS_Datasets/dncov_validation.list'
 
 
-CV_dir=outputdir+'/'+'layers'+str(nb_layers)+'_batch'+str(batch_size)+'_ftsize'+str(filtsize);
+CV_dir=outputdir+'/filters'+str(nb_filters)+'_layers'+str(nb_layers)+'_batch'+str(batch_size)+'_ftsize'+str(filtsize);
 
 lib_dir=GLOBAL_PATH+'/lib/'
 
@@ -78,7 +79,7 @@ data_all_dict = load_train_test_data_for_gan(train_datafile, feature_dir)
 testdata_all_dict = load_train_test_data_for_gan(val_datafile, feature_dir)
 
 start_time = time.time()
-DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_datafile,test_datafile,val_datafile,CV_dir,AA_win,feature_dir,"deepss_1dconv_gan",out_epoch,batch_size,filetsize_array,nb_layers,lib_dir)
+DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_datafile,test_datafile,val_datafile,CV_dir,AA_win,feature_dir,"deepss_1dconv_gan",out_epoch,batch_size,filetsize_array,nb_filters,nb_layers,lib_dir)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 

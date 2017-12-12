@@ -39,7 +39,7 @@ def chkdirs(fn):
   if not os.path.exists(dn): os.makedirs(dn)
 
 
-def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_list,test_list,val_list,CV_dir,AA_win,feature_dir,model_prefix,epoch_outside,batch_size,win_array,nb_layers,lib_dir,latent_size = 100,adam_lr = 0.00005,adam_beta_1 = 0.5):
+def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_list,test_list,val_list,CV_dir,AA_win,feature_dir,model_prefix,epoch_outside,batch_size,win_array,nb_filters,nb_layers,lib_dir,latent_size = 100,adam_lr = 0.00005,adam_beta_1 = 0.5):
     import numpy as np
     
     feature_num=0; # the number of features for each residue
@@ -162,7 +162,8 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
     AA_win = AA_win # use mnist to test 1d, just to check if works
     #fea_num = 20
     fea_num = feature_num # use mnist to test 1d, just to check if works
-    nb_filters = fea_num # use same as number of feature, so that input and output will get same dimension
+    nb_filters = nb_filters # this is for discriminator
+    nb_filters_generator = fea_num # use same as number of feature, so that input and output will get same dimension
     n_class = 3
     #n_class = 10 # only for mnist for test    
     
@@ -206,12 +207,12 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         print "\n\n#### Start initializing generator: ";
         print "         latent_size: ",latent_size;
         print "         AA_win: ",AA_win;
-        print "         nb_filters: ",nb_filters;
+        print "         nb_filters: ",nb_filters_generator;
         print "         nb_layers: ",nb_layers;
         print "         win_array: ",win_array;
         print "         fea_num: ",fea_num;
         print "         n_class: ",n_class;
-        generator = build_generator(latent_size,AA_win,nb_filters,nb_layers,win_array,fea_num,n_class)
+        generator = build_generator(latent_size,AA_win,nb_filters_generator,nb_layers,win_array,fea_num,n_class)
     generator.compile(optimizer=Adam(lr=adam_lr, beta_1=adam_beta_1),
                       loss='binary_crossentropy')
     
@@ -459,7 +460,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(10) 
             if os.path.exists(scorefile):
               found = 1
@@ -522,7 +523,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(20) 
             if os.path.exists(scorefile):
               found = 1
@@ -587,7 +588,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(15) 
             if os.path.exists(scorefile):
               found = 1
@@ -670,8 +671,9 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         
         with open(GAN_history_out, "a") as myfile:
           myfile.write('\n\nTesting for epoch {}:'.format(epoch + 1))
-          myfile.write('{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
+          myfile.write('\n{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
                   'component', *discriminator.metrics_names))
+          myfile.write('\n')
           myfile.write('-' * 65)
           ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}\n'
           myfile.write(ROW_FMT.format('generator (train)',
@@ -966,7 +968,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(10) 
             if os.path.exists(scorefile):
               found = 1
@@ -1031,7 +1033,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(20) 
             if os.path.exists(scorefile):
               found = 1
@@ -1097,7 +1099,7 @@ def DeepSS_1dconv_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_
         
         found = 0
         while (found == 0):
-            print "Checking file ",scorefile
+            #print "Checking file ",scorefile
             time.sleep(15) 
             if os.path.exists(scorefile):
               found = 1
