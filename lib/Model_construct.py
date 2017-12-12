@@ -50,7 +50,7 @@ from keras.constraints import maxnorm
 from keras.models import Model
 from keras.layers import Activation, Dense, Dropout, Flatten, Input, Merge, Convolution1D, Convolution2D
 from keras.layers.normalization import BatchNormalization
-
+from Custom_class import K_max_pooling1d
 
 import numpy as np
 
@@ -130,7 +130,6 @@ def build_generator(latent_size,AA_win,nb_filters,nb_layers,win_array,fea_num,n_
     #DeepSS_CNN.summary()
     return Model(input=DeepSS_input_shape, output=DeepSS_fake_out)
 
-
 def build_discriminator(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class):
     # build a relatively standard conv net, with LeakyReLUs as suggested in
     # the reference paper
@@ -178,6 +177,164 @@ def build_discriminator(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class):
     return Model(input=[DeepSS_input], output=[fake, aux])
 
 
+
+
+def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num,n_class): # has problem
+    # we will map a pair of (z, L), where z is a latent vector and L is a
+    # label drawn from P_c, to image space (..., 1, 28, 28)
+    
+    #latent_size = 100
+    #nb_filters = 10
+    #nb_layers = 10
+    #filter_sizes=[5,11,15,20]
+    #win_array=[10]
+    #AA_win = 15
+    #fea_num = 20
+    #nb_layers=10
+    filter_sizes=win_array
+    # this is the z space commonly refered to in GAN papers
+    latent = Input(shape=(None,latent_size))
+    # this will be our label
+    sample_class = Input(shape=(None,1), dtype='int32')
+    
+    # 10 classes in MNIST
+    #cls = Flatten()(Embedding(n_class, latent_size,
+    #                          init='glorot_normal')(sample_class))
+    cls = Embedding(n_class, latent_size,
+                              init='glorot_normal')(sample_class)
+    
+    DeepSS_convs = []
+    
+    # hadamard product between z-space and a class conditional embedding
+    DeepSS_input_shape = [latent, sample_class]
+    DeepSS_input = merge([latent, cls], mode='mul') # (None,L,100)
+    #DeepSS_input = Dense(1 * AA_win * fea_num, input_dim=latent_size, activation='relu')(DeepSS_input)
+    #DeepSS_input = Reshape((AA_win, fea_num))(DeepSS_input)
+    
+    for fsz in filter_sizes:
+        DeepSS_conv = DeepSS_input
+        for i in range(0,nb_layers):
+            DeepSS_conv = _conv_bn_relu1D(nb_filter=nb_filters, nb_row=fsz, subsample=1)(DeepSS_conv)
+        DeepSS_convs.append(DeepSS_conv)
+    
+    if len(filter_sizes)>1:
+      DeepSS_fake_out = Merge(mode='average')(DeepSS_convs)
+    else:
+      DeepSS_fake_out = DeepSS_convs[0]  
+    
+    #DeepSS_CNN = Model(input=DeepSS_input_shape, output=DeepSS_fake_out)
+    #DeepSS_CNN.summary()
+    return Model(input=DeepSS_input_shape, output=DeepSS_fake_out)
+
+
+"""
+Test 
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
+source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
+THEANO_FLAGS=floatX=float32,device=gpu python
+
+
+import sys
+import os
+from shutil import copyfile
+GLOBAL_PATH='/storage/htc/bdm/jh7x3/GANSS/';
+sys.path.insert(0, GLOBAL_PATH+'/lib/')
+
+from Data_loading import load_train_test_data_for_gan
+from Model_training import DeepSS_1dconv_gan_train_win_filter_layer_opt
+from Model_construct import build_discriminator_variant1D,build_generator_variant1D
+nb_layers = 2
+win_array = [10]
+fea_num = 21
+n_class =3
+nb_filters_generator = fea_num
+latent_size=100
+generator_variant1D = build_generator_variant1D(latent_size,nb_filters_generator,nb_layers,win_array,fea_num,n_class)
+generator_variant1D.summary()
+
+"""
+
+def build_discriminator_variant1D(nb_filters,nb_layers,win_array,fea_num):
+    # build a relatively standard conv net, with LeakyReLUs as suggested in
+    # the reference paper
+    
+    #latent_size = 100
+    #nb_filters = 10
+    #nb_layers = 10
+    #filter_sizes=[5,11,15,20]
+    #win_array=[10]
+    #AA_win = 15
+    #fea_num = 20
+    #nb_layers=10
+    
+    DeepSS_input_shape =(None,fea_num)
+    #nb_filters = 10
+    #nb_layers = 10
+    #filter_sizes=[5,11,15,20]
+    filter_sizes=win_array
+    DeepSS_input = Input(shape=DeepSS_input_shape)
+    DeepSS_convs = []
+    for fsz in filter_sizes:
+        DeepSS_conv = DeepSS_input
+        for i in range(0,nb_layers):
+            DeepSS_conv = _conv_bn_relu1D(nb_filter=nb_filters, nb_row=fsz, subsample=1)(DeepSS_conv)
+        #DeepSS_conv = remove_1d_padding(ktop=ktop_node)(DeepSS_conv) ## remove the padding rows because they don't have targets
+        #no need here, because if target is 0, the cross-entropy is zero, error will be not passed
+        #DeepSS_conv = Flatten()(DeepSS_conv)
+        DeepSS_convs.append(DeepSS_conv)
+    
+    if len(filter_sizes)>1:
+        DeepSS_average_out = Merge(mode='average')(DeepSS_convs)
+    else:
+        DeepSS_average_out = DeepSS_convs[0]  
+    
+    DeepSS_pool = K_max_pooling1d(ktop=30)(DeepSS_average_out)
+    DeepSS_flatten = Flatten()(DeepSS_pool)
+    # first output (name=generation) is whether or not the discriminator
+    # thinks the image that is being shown is fake, and the second output
+    # (name=auxiliary) is the class that the discriminator thinks the image
+    # belongs to.
+    fake = Dense(1, activation='sigmoid', name='generation')(DeepSS_flatten)
+    #aux = Dense(n_class, activation='softmax', name='auxiliary')(DeepSS_flatten_out)
+    aux = _conv_bn_softmax1D(nb_filter=1, nb_row=fsz, subsample=1,use_bias=True,name='auxiliary')(DeepSS_average_out)
+    #DeepSS_CNN = Model(input=[DeepSS_input], output=[fake, aux])
+    #DeepSS_CNN.summary()
+    return Model(input=[DeepSS_input], output=[fake, aux])
+
+
+"""
+Test 
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
+source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
+THEANO_FLAGS=floatX=float32,device=gpu python
+
+
+import sys
+import os
+from shutil import copyfile
+GLOBAL_PATH='/storage/htc/bdm/jh7x3/GANSS/';
+sys.path.insert(0, GLOBAL_PATH+'/lib/')
+
+from Data_loading import load_train_test_data_for_gan
+from Model_training import DeepSS_1dconv_gan_train_win_filter_layer_opt
+from Model_construct import build_discriminator_variant1D
+nb_filters = 5
+nb_layers = 2
+win_array = [10]
+fea_num = 21
+
+discriminator_variant1D = build_discriminator_variant1D(nb_filters,nb_layers,win_array,fea_num)
+discriminator_variant1D.compile(
+    optimizer=Adam(lr=adam_lr, beta_1=adam_beta_1),
+    loss=['binary_crossentropy', 'sparse_categorical_crossentropy']
+)
+discriminator_variant1D.summary()
+
+"""
 
 def DeepCov_SS_with_paras(win_array,feature_num,use_bias,hidden_type,nb_filters,nb_layers,opt):
     #### for model 40~100

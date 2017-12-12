@@ -34,6 +34,10 @@ print "\n1. Start install GANSS into <$install_dir>\n\n";
 push @updatelist_py, 'Deep1Dconv_ss/scripts/train_deepcov_ss.py';
 push @updatelist_py, 'Deep1Dconv_ss/scripts/train_deepcov_ss_all_train.py';
 push @updatelist_py, 'lib/evaluate_deepcov_ss.py';
+push @updatelist_py, 'examples/test_discriminator.py';
+push @updatelist_py, 'examples/test_generator.py';
+push @updatelist_py, 'examples/test_discriminator_variant1D.py';
+push @updatelist_py, 'examples/test_generator_variant1D.py';
 
 push @updatelist_pl, 'Deep1Dconv_ss/scripts/P1_generate_features.pl';
 push @updatelist_pl, 'Deep1Dconv_ss_gan/scripts/P1_generate_features.pl';
