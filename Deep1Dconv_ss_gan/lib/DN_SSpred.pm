@@ -116,7 +116,7 @@ sub generate_feature_for_convolution {
 	foreach (@trainlist){
 		if ($count/@trainlist*100 > $percent){
 			print STDERR "$percent % completed (train).\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -157,7 +157,7 @@ sub generate_feature_for_convolution {
 	foreach (@testlist){
 		if ($count/@testlist*100 > $percent){
 			print STDERR "$percent % completed (test).\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -217,7 +217,7 @@ sub newDN {
 	foreach (@trainlist){
 		if ($count/@trainlist*100 > $percent){
 			print STDERR "$percent % completed.\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -373,7 +373,7 @@ sub all_testfeatures {
 	foreach my $prot (@list){
 		if ($count/@list*100 > $percent){
 			print STDERR "$percent % completed.\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -1016,7 +1016,7 @@ sub test_DN {
 	foreach my $prot (@list){
 		if ($count/$length*100 > $percent && $percent < 100){
 			print STDERR "$percent % complete.\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -1105,7 +1105,7 @@ sub all_dnss_files {
 	foreach my $prot (@list){
 		if ($count/@list*100 > $percent && $percent < 100){
 			print "$percent % complete.\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count++;
 
@@ -1304,7 +1304,7 @@ sub all_score {
 	foreach my $prot (@list) {
 		if ($count/@list*100 > $percent && $percent < 100){
 			print STDERR "$percent % completed.\n";
-			$percent += 10;
+			$percent += 50;
 		}
 		$count ++;
 

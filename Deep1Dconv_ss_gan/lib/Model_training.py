@@ -6,7 +6,7 @@ Created on Wed Feb 22 21:47:26 2017
 """
 import os
 from Model_construct import build_generator,build_discriminator
-from keras.models import model_from_json
+from keras.models import model_from_json,load_model, Sequential
 import numpy as np
 import time
 import shutil
@@ -389,54 +389,19 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         test_history['discriminator'].append(discriminator_test_loss)
         test_history['reconstrution'].append(reconstruction_test_error)
         
-                    
-                    
-        print('{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
-            'component', *discriminator.metrics_names))
-        print('-' * 65)
         
-        ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}'
-        print(ROW_FMT.format('generator (train)',
-                             *train_history['generator'][-1]))
-        print(ROW_FMT.format('generator (test)',
-                             *test_history['generator'][-1]))
-                             
-        print(ROW_FMT.format('discriminator (train)',
-                             *train_history['discriminator'][-1]))                             
-        print(ROW_FMT.format('discriminator (test)',
-                             *test_history['discriminator'][-1]))
-                             
-        print('Reconstruction Error (train)', train_history['reconstrution'][-1])
-        print('Reconstruction Error (test)',test_history['reconstrution'][-1])
-        
-        with open(GAN_history_out, "a") as myfile:
-          myfile.write('\n\nTesting for epoch {}:'.format(epoch + 1))
-          myfile.write('{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
-                  'component', *discriminator.metrics_names))
-          myfile.write('-' * 65)
-          ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}'
-          myfile.write(ROW_FMT.format('generator (train)',
-                               *train_history['generator'][-1]))
-          myfile.write(ROW_FMT.format('generator (test)',
-                               *test_history['generator'][-1]))
-                               
-          myfile.write(ROW_FMT.format('discriminator (train)',
-                               *train_history['discriminator'][-1]))                             
-          myfile.write(ROW_FMT.format('discriminator (test)',
-                               *test_history['discriminator'][-1]))       
-          myfile.write('Reconstruction Error (train)', train_history['reconstrution'][-1])
-          myfile.write('Reconstruction Error (test)',test_history['reconstrution'][-1]) 
-                 
         # save weights every epoch
         #generator_weigth_out= "%s/params_generator_weight_epoch_%d_%s.hdf5" % (CV_dir,epoch,model_prefix)         
         #generator.save_weights(generator_weigth_out, True)
-        generator_model_out= "%s/%s/params_generator_model_epoch_%d_%s.hdf5" % (CV_dir,'epoch_models',epoch,model_prefix)         
+        generator_model_out= "%s/%s/params_generator_model_epoch_%d_%s.hdf5" % (CV_dir,'epoch_models',epoch,model_prefix)
+        chkdirs(generator_model_out)      
         generator.save(generator_model_out)
         
         
         #discriminator_weight_out= "%s/params_discriminator_weight_epoch_%d_%s.hdf5" % (CV_dir,epoch,model_prefix)         
         #discriminator.save_weights(discriminator_weight_out, True)
-        discriminator_model_out= "%s/%s/params_discriminator_model_epoch_%d_%s.hdf5" % (CV_dir,'epoch_models',epoch,model_prefix)         
+        discriminator_model_out= "%s/%s/params_discriminator_model_epoch_%d_%s.hdf5" % (CV_dir,'epoch_models',epoch,model_prefix)
+        chkdirs(discriminator_model_out)          
         discriminator.save(discriminator_model_out)
         
         ## how to select the best model and save 
@@ -679,7 +644,50 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
                 if os.path.exists(image_file):
                   found = 1
             print "Temporary visualization saved to file ",image_file
-
+      
+                    
+        print('{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
+            'component', *discriminator.metrics_names))
+        print('-' * 65)
+        
+        ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}'
+        print(ROW_FMT.format('generator (train)',
+                             *train_history['generator'][-1]))
+        print(ROW_FMT.format('generator (val)',
+                             *test_history['generator'][-1]))
+                             
+        print(ROW_FMT.format('discriminator (train)',
+                             *train_history['discriminator'][-1]))                             
+        print(ROW_FMT.format('discriminator (val)',
+                             *test_history['discriminator'][-1]))
+                             
+        print 'Reconstruction Error (train): ', train_history['reconstrution'][-1]
+        print 'Reconstruction Error (val): ',test_history['reconstrution'][-1]
+        print 'Classification Acc (train): ', train_acc
+        print 'Classification Acc (val): ',val_acc
+        print 'Classification Acc (test): ',test_acc
+        
+        with open(GAN_history_out, "a") as myfile:
+          myfile.write('\n\nTesting for epoch {}:'.format(epoch + 1))
+          myfile.write('{0:<22s} | {1:4s} | {2:15s} | {3:5s}'.format(
+                  'component', *discriminator.metrics_names))
+          myfile.write('-' * 65)
+          ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}'
+          myfile.write(ROW_FMT.format('generator (train)',
+                               *train_history['generator'][-1]))
+          myfile.write(ROW_FMT.format('generator (test)',
+                               *test_history['generator'][-1]))
+                               
+          myfile.write(ROW_FMT.format('discriminator (train)',
+                               *train_history['discriminator'][-1]))                             
+          myfile.write(ROW_FMT.format('discriminator (val)',
+                               *test_history['discriminator'][-1]))       
+          myfile.write("Reconstruction Error (train): %.5f " %  train_history['reconstrution'][-1])
+          myfile.write("Reconstruction Error (val): %.5f " % test_history['reconstrution'][-1])
+          myfile.write("Classification Acc (train): %.5f " % train_acc)
+          myfile.write("Classification Acc (val): %.5f " % val_acc)
+          myfile.write("Classification Acc (test): %.5f " % test_acc)
+    
     #print "Training finished, best training acc = ",train_acc_best
     print "Training finished, best testing acc = ",test_acc_best
     print "Training finished, best validation acc = ",val_acc_best
