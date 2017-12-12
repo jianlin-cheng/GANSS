@@ -73,7 +73,7 @@ python test_discriminator_variant1D.py
 
 Note: This is 1d convolutional neural network pretrained by GAN for secondary structure prediction.
 
-(a) generate 15 window feature without atchley and aa
+(a) (option if already generated) generate 15 window feature without atchley and aa
 
 ```
 cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
@@ -94,7 +94,7 @@ THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1
 
 Note: This is 1d convolutional neural network based secondary structure prediction.
 
-(a) generate 15 window feature without atchley and aa
+(a) (option if already generated) generate 15 window feature without atchley and aa
 
 ```
 cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/
