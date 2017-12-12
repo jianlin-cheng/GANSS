@@ -34,17 +34,17 @@ sudo pip install tensorflow
 ```
 GPU version is NOT needed. If you face issues, refer to the the tensor flow installation guide at https://www.tensorflow.org/install/install_linux.
 
-(b) (Option if already installed) Install Keras:
+(b) Install Keras:
 ```
 sudo pip install keras
 ```
 
-(c) (Option if already installed) Install the h5py library:  
+(c) Install the h5py library:  
 ```
 sudo pip install python-h5py
 ```
 
-(d) (Option if already installed) Add the entry [“image_dim_ordering": "th”,] to your keras..json file at ~/.keras/keras.json. Note that if you have not tried to run Keras before, you have have to execute the Tensorflow verification step once so that your keras.json file is created. After the update, your keras.json should look like the one below:  
+(d) Add the entry [“image_dim_ordering": "th”,] to your keras..json file at ~/.keras/keras.json. Note that if you have not tried to run Keras before, you have have to execute the Tensorflow verification step once so that your keras.json file is created. After the update, your keras.json should look like the one below:  
 ```
 {
     "image_dim_ordering": "th",
