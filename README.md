@@ -70,9 +70,9 @@ Note: This is 1d convolutional neural network pretrained by GAN for secondary st
 (a) generate 15 window feature without atchley and aa
 
 ```
-		$  cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/
-	 	$  perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
-			** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ 
+cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
+perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
+   ** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/
 ```
 
 (b) training GANSS on 15 window feature without atchley and aa
@@ -90,9 +90,9 @@ Note: This is 1d convolutional neural network based secondary structure predicti
 (a) generate 15 window feature without atchley and aa
 
 ```
-		$  cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
-	 	$  perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
-			** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ 
+cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
+perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
+   ** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ 
 ```
 
 (b) training DeepCov_SS on  15 window feature without atchley and aa
