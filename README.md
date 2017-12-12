@@ -1,5 +1,5 @@
 # GANSS
-** Generative Adversarial Network for Protein Secondary Structure Prediction
+** 1D Generative Adversarial Network for Protein Secondary Structure Prediction
 
 
 
