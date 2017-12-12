@@ -78,6 +78,7 @@ perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  
 
 (b) training GANSS on 15 window feature without atchley and aa
 ```
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
 cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
@@ -98,6 +99,7 @@ perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  
 
 (b) training DeepCov_SS on  15 window feature without atchley and aa
 ```
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
 cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
