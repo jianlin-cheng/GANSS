@@ -7,10 +7,11 @@ Installation Steps
 --------------------------------------------------------------------------------------
 
 **(A) Download and Unzip GANSS package**  
-
+```
 git clone https://github.com/jianlin-cheng/GANSS.git
-
+```
 **(B) Configure GANSS package**  
+```
 cd GANSS
 tar -zxvf GANSS_Datasets.tar.gz
 
@@ -24,7 +25,7 @@ tar -zxf pssm.tar.gz
 tar -zxf ssa.tar.gz
 
 perl configure.pl /storage/htc/bdm/jh7x3/GANSS
-
+```
 **(C) (Option if already installed) Install Tensorflow, Keras, and h5py and Update keras.json**  
 
 (a) Install Tensorflow: 
