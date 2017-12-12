@@ -62,6 +62,11 @@ srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
 cd examples/
 ./test_deepss.sh
 * check /storage/htc/bdm/jh7x3/GANSS/examples/model_train_win15/filter5_layers5_inter15_optnadam_ftsize6/
+
+python test_discriminator.py
+python test_generator.py
+python test_generator_variant1D.py
+python test_discriminator_variant1D.py
 ```
 
 **(E) Start training GANSS** 
