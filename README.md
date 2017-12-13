@@ -120,7 +120,7 @@ THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1
 
 **(G) Start tunning parameter of GANSS** 
 
-### start tunning the GANSS network  on win15
+Note: start tunning the GANSS network  on win15
 
 (1) Tunning filter size
 
