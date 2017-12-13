@@ -136,6 +136,7 @@ Example of training using GAN
 ![Example of training using GAN](https://github.com/jianlin-cheng/GANSS/blob/master/Deep1Dconv_ss_gan/results/train_val_test_loss_q3_sov_history_summary.jpeg)
 
 Note: 
+
 (1) Need parameter tuning
 
 (2) Too many epoch may lead to reconstruction error increase and model inrobust
