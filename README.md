@@ -136,12 +136,6 @@ perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv
 
 perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/scripts/parameter_tune_scripts/P1_para_tune_summarize_filter_conv.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/filter_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
 ** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
-
-perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/scripts/parameter_tune_scripts/P1_network_filtersize_tune.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/filter_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/filter_size_tunning_scripts
-perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/scripts/parameter_tune_scripts/P1_submit_sbatch.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/filter_size_tunning_scripts  0 30 
-
-perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/scripts/parameter_tune_scripts/P1_para_tune_summarize_filter_conv.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/filter_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
-** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
 ```
 
 (2) Tunning generator layer size
