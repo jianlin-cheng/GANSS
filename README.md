@@ -77,30 +77,7 @@ python test_deepcov_model.py
 
 ### Experimental Steps
 --------------------------------------------------------------------------------------
-
-**(A) Start training GANSS** 
-
-Note: This is 1d convolutional neural network pretrained by GAN for secondary structure prediction.
-
-(a) (option if already generated) generate 15 window feature without atchley and aa
-
-```
-cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
-perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
-   ** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/
-```
-
-(b) training GANSS on 15 window feature without atchley and aa
-```
-srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
-cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
-source /group/bdm/tools/keras_virtualenv/bin/activate
-module load cuda/cuda-8.0
-module load R/R-3.3.1
-THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
-```
-
-**(B) Start training DeepCov_SS** 
+**(A) Start training DeepCov_SS** 
 
 Note: This is 1d convolutional neural network based secondary structure prediction.
 
@@ -122,6 +99,28 @@ module load R/R-3.3.1
 THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/train_deepcov_ss.py 15  5 5   nadam '6'  100 3  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/results/
 ```
 
+
+**(B) Start training GANSS** 
+
+Note: This is 1d convolutional neural network pretrained by GAN for secondary structure prediction.
+
+(a) (option if already generated) generate 15 window feature without atchley and aa
+
+```
+cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
+perl P1_generate_features.pl  -out  features_win15_no_atch_aa -wind 15 -atch 0  -seq 0 -nobound
+   ** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/
+```
+
+(b) training GANSS on 15 window feature without atchley and aa
+```
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan
+source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
+module load R/R-3.3.1
+THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
+```
 
 **(C) Start tunning parameter of GANSS** 
 
@@ -172,5 +171,30 @@ perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv
 
 perl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/scripts/parameter_tune_scripts/P1_para_tune_summarize_kernel_width_conv_new.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
 ** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
+```
+
+
+
+
+**(D) Start training variable-length GANSS  (Jie still work on testing)** 
+
+Note: This is 1d convolutional neural network pretrained by variable-length GAN for secondary structure prediction (novelty).
+
+(a) (option if already generated) generate 1 window feature without atchley and aa
+
+```
+cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/
+perl P1_generate_features.pl  -out  features_win1_no_atch_aa -wind 1 -atch 0  -seq 0 -nobound
+	** /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/ 
+```
+
+(b) training variable-length GANSS on 1 window feature without atchley and aa
+```
+srun -p Gpu -N1 -n10 --gres gpu:1 --mem=100G --pty /bin/bash
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen
+source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
+module load R/R-3.3.1
+THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/train_deepcov_gan_ss_variableLen.py 15 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/results/
 ```
 
