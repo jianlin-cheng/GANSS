@@ -137,7 +137,12 @@ Example of training using GAN
 
 Note: 
 (1) Need parameter tuning
+
 (2) Too many epoch may lead to reconstruction error increase and model inrobust
+
+(3) More filters may get better accuracy faster
+
+(4) Which metric is best to stop the training? Accuracy or Reconstruction error?
 
 
 **(C) Start tunning parameter of GANSS** 
