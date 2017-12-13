@@ -22,9 +22,14 @@ $bin_size=0;
 $train_history = "$working_dir/training.acc_history";
 $test_history = "$working_dir/testing.acc_history";
 $val_history = "$working_dir/validation.acc_history";
+$gan_history = "$working_dir/GAN_training.history";
 
 
 open(OUT, ">$working_dir/train_val_test.loss_q3_sov_history_summary") or print ("CANNOT open $working_dir/train_val_test.loss_q3_sov_history_summary\n");
+
+
+$interval_global = 0;
+############################  summarize the accuracy information
 print OUT "Data\tAA_win\tEpoch\tMetric\tScore\n";
 open(IN, "$train_history") or print ("CANNOT open $train_history\n");
 while(<IN>)
@@ -42,6 +47,7 @@ while(<IN>)
   $acc = $tmp[2];
   $bin_size = $interval;
   print OUT "Train\t$interval\t$epoch\tAccuracy\t$acc\n";
+  $interval_global=  $interval;
 }
 close IN;
 
@@ -85,7 +91,36 @@ while(<IN>)
 close IN;
 
 
-
+############################  summarize the reconstruction error information
+open(IN, "$gan_history") or print ("CANNOT open $gan_history\n");
+$epoch_record_train=0;
+$epoch_record_val=0;
+while(<IN>)
+{
+	$line=$_; #Reconstruction Error (train):  0.675330660651
+	chomp $line;
+  if(index($line,'Reconstruction Error ') <  0)
+  {
+    next;
+  }
+  
+  
+  if(index($line,'train') > 0)
+  {
+    $epoch_record_train++;
+    $train_error = substr($line,index($line,':')+1 );
+    $train_error =~ s/^\s+|\s+$//g;
+    print OUT "Train\t$interval_global\t$epoch_record_train\tRecon_Err\t$train_error\n";
+  }
+  if(index($line,'val') > 0)
+  {
+    $epoch_record_val++;
+    $val_error = substr($line,index($line,':')+1 );
+    $val_error =~ s/^\s+|\s+$//g;
+    print OUT "Validation\t$interval_global\t$epoch_record_val\tRecon_Err\t$val_error\n";
+  }
+}
+close IN;
 
 ############################  summarize the Q3/SOV information
 
