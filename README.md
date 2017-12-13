@@ -131,6 +131,15 @@ module load R/R-3.3.1
 THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
 ```
 
+Example of training using GAN
+--------------------------------------------------------------------------------------
+![Example of training using GAN](https://github.com/jianlin-cheng/GANSS/tree/master/Deep1Dconv_ss_gan/results/train_val_test_loss_q3_sov_history_summary.jpeg)
+
+Note: 
+(1) Need parameter tuning
+(2) Too many epoch may lead to reconstruction error increase and model inrobust
+
+
 **(C) Start tunning parameter of GANSS** 
 
 Note: start tunning the GANSS network  on win15
