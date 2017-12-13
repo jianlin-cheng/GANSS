@@ -675,6 +675,7 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
                   'component', *discriminator.metrics_names))
           myfile.write('\n')
           myfile.write('-' * 65)
+          myfile.write('\n')
           ROW_FMT = '{0:<22s} | {1:<4.2f} | {2:<15.2f} | {3:<5.2f}\n'
           myfile.write(ROW_FMT.format('generator (train)',
                                *train_history['generator'][-1]))

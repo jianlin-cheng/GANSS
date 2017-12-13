@@ -95,7 +95,7 @@ foreach my $file (@updatelist_pl) {
       $file_index++;
 			print "$file_index. Setting ".$file2update."\n";
 			print "\t--- Current ".$line."\n";
-			print "\t--- Change to ".substr($line,0,index($line, '=')+1)." \'".$install_dir."\';\n\n\n";
+			print "\t--- Change to ".substr($line,0,index($line, '=')+1)." \'".$install_dir."\'; }\n\n\n";
 			print OUT substr($line,0,index($line, '=')+1)." \'".$install_dir."\'; }\n";
 		}else{
 			print OUT $line."\n";

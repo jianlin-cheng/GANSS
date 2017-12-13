@@ -39,6 +39,7 @@ from Custom_class import remove_1d_padding
 
 import keras.backend as K
 from keras.datasets import mnist
+from keras.engine.topology import Layer
 from keras.layers import Input, Dense, Reshape, Flatten, Embedding, merge, Dropout
 from keras.layers.advanced_activations import LeakyReLU
 from keras.layers.convolutional import UpSampling2D, Convolution2D
@@ -177,8 +178,6 @@ def build_discriminator(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class):
     return Model(input=[DeepSS_input], output=[fake, aux])
 
 
-
-
 def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num,n_class): # has problem
     # we will map a pair of (z, L), where z is a latent vector and L is a
     # label drawn from P_c, to image space (..., 1, 28, 28)
@@ -195,7 +194,7 @@ def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num
     # this is the z space commonly refered to in GAN papers
     latent = Input(shape=(None,latent_size))
     # this will be our label
-    sample_class = Input(shape=(None,1), dtype='int32')
+    sample_class = Input(shape=(None,), dtype='int32')
     
     # 10 classes in MNIST
     #cls = Flatten()(Embedding(n_class, latent_size,
@@ -203,11 +202,13 @@ def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num
     cls = Embedding(n_class, latent_size,
                               init='glorot_normal')(sample_class)
     
+    #model = Model(input=sample_class, output=cls)
     DeepSS_convs = []
     
     # hadamard product between z-space and a class conditional embedding
     DeepSS_input_shape = [latent, sample_class]
-    DeepSS_input = merge([latent, cls], mode='mul') # (None,L,100)
+    DeepSS_input = merge([latent, cls], mode='mul') # (None,L,100) 
+    #model = Model(input=DeepSS_input_shape, output=DeepSS_input)
     #DeepSS_input = Dense(1 * AA_win * fea_num, input_dim=latent_size, activation='relu')(DeepSS_input)
     #DeepSS_input = Reshape((AA_win, fea_num))(DeepSS_input)
     
@@ -217,6 +218,7 @@ def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num
             DeepSS_conv = _conv_bn_relu1D(nb_filter=nb_filters, nb_row=fsz, subsample=1)(DeepSS_conv)
         DeepSS_convs.append(DeepSS_conv)
     
+    #model = Model(input=DeepSS_input_shape, output=DeepSS_conv)
     if len(filter_sizes)>1:
       DeepSS_fake_out = Merge(mode='average')(DeepSS_convs)
     else:
