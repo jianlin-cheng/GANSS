@@ -2,6 +2,7 @@
 **1D Generative Adversarial Network for Protein Secondary Structure Prediction** 
 
 Note: Methods include
+
 **(1) Traditional 1D convolution with fixed window length (ex. 15) as input** 
 
 **(2) Traditional 1D convolution with variable-length sequence as input** 
