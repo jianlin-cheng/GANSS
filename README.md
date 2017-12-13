@@ -65,6 +65,7 @@ cd examples/
 
 cd /storage/htc/bdm/jh7x3/GANSS/examples
 source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
 python test_discriminator.py
 python test_generator.py
 python test_generator_variant1D.py (this still has problem, need fix ------ Jie)
