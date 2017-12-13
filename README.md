@@ -63,6 +63,8 @@ cd examples/
 ./test_deepss.sh
 * check /storage/htc/bdm/jh7x3/GANSS/examples/model_train_win15/filter5_layers5_inter15_optnadam_ftsize6/
 
+cd /storage/htc/bdm/jh7x3/GANSS/examples
+source /group/bdm/tools/keras_virtualenv/bin/activate
 python test_discriminator.py
 python test_generator.py
 python test_generator_variant1D.py (this still has problem, need fix ------ Jie)
