@@ -70,6 +70,7 @@ python test_discriminator.py
 python test_generator.py
 python test_generator_variant1D.py (this still has problem, need fix ------ Jie)
 python test_discriminator_variant1D.py
+python test_deepcov_model.py
 ```
 
 **(E) Start training GANSS** 
