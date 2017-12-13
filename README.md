@@ -3,7 +3,7 @@
 
 
 
-Installation Steps
+### Installation Steps
 --------------------------------------------------------------------------------------
 
 **(A) Download and Unzip GANSS package**  
@@ -73,7 +73,12 @@ python test_discriminator_variant1D.py
 python test_deepcov_model.py
 ```
 
-**(E) Start training GANSS** 
+
+
+### Experimental Steps
+--------------------------------------------------------------------------------------
+
+**(A) Start training GANSS** 
 
 Note: This is 1d convolutional neural network pretrained by GAN for secondary structure prediction.
 
@@ -95,7 +100,7 @@ module load R/R-3.3.1
 THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/train_deepcov_gan_ss.py 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/
 ```
 
-**(F) Start training DeepCov_SS** 
+**(B) Start training DeepCov_SS** 
 
 Note: This is 1d convolutional neural network based secondary structure prediction.
 
@@ -118,7 +123,7 @@ THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1
 ```
 
 
-**(G) Start tunning parameter of GANSS** 
+**(C) Start tunning parameter of GANSS** 
 
 Note: start tunning the GANSS network  on win15
 
