@@ -63,17 +63,21 @@ cd examples/
 ./test_deepss.sh
 * check /storage/htc/bdm/jh7x3/GANSS/examples/model_train_win15/filter5_layers5_inter15_optnadam_ftsize6/
 
+cd /storage/htc/bdm/jh7x3/GANSS/examples
+source /group/bdm/tools/keras_virtualenv/bin/activate
+module load cuda/cuda-8.0
 python test_discriminator.py
 python test_generator.py
 python test_generator_variant1D.py
 python test_discriminator_variant1D.py
+python test_deepcov_model.py
 ```
 
 **(E) Start training GANSS** 
 
 Note: This is 1d convolutional neural network pretrained by GAN for secondary structure prediction.
 
-(a) generate 15 window feature without atchley and aa
+(a) (option if already generated) generate 15 window feature without atchley and aa
 
 ```
 cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/
@@ -94,7 +98,7 @@ THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1
 
 Note: This is 1d convolutional neural network based secondary structure prediction.
 
-(a) generate 15 window feature without atchley and aa
+(a) (option if already generated) generate 15 window feature without atchley and aa
 
 ```
 cd  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss/scripts/
