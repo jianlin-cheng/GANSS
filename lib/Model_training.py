@@ -39,7 +39,7 @@ def chkdirs(fn):
   if not os.path.exists(dn): os.makedirs(dn)
 
 
-def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_list,test_list,val_list,CV_dir,AA_win,feature_dir,model_prefix,epoch_outside,batch_size,win_array,nb_filters,nb_layers,lib_dir,latent_size = 100,adam_lr = 0.00005,adam_beta_1 = 0.5):
+def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict,train_list,test_list,val_list,CV_dir,AA_win,feature_dir,model_prefix,epoch_outside,batch_size,win_array,nb_filters,nb_layers_generator,nb_layers_discriminator,lib_dir,latent_size = 100,adam_lr = 0.00005,adam_beta_1 = 0.5):
     import numpy as np
     
     feature_num=0; # the number of features for each residue
@@ -156,7 +156,8 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
     adam_beta_1 = adam_beta_1
     
     ## set network parameter 
-    nb_layers = nb_layers 
+    nb_layers_generator = nb_layers_generator 
+    nb_layers_discriminator = nb_layers_discriminator
     win_array=win_array
     #AA_win = 15
     AA_win = AA_win # use mnist to test 1d, just to check if works
@@ -184,11 +185,11 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         print "\n\n#### Start initializing discriminator: ";
         print "         AA_win: ",AA_win;
         print "         nb_filters: ",nb_filters;
-        print "         nb_layers: ",nb_layers;
+        print "         nb_layers: ",nb_layers_discriminator;
         print "         win_array: ",win_array;
         print "         fea_num: ",fea_num;
         print "         n_class: ",n_class;
-        discriminator = build_discriminator(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class)
+        discriminator = build_discriminator(AA_win,nb_filters,nb_layers_discriminator,win_array,fea_num,n_class)
     discriminator.compile(
         optimizer=Adam(lr=adam_lr, beta_1=adam_beta_1),
         loss=['binary_crossentropy', 'sparse_categorical_crossentropy']
@@ -208,11 +209,11 @@ def DeepSS_1dconv_gan_train_win_filter_layer_opt(data_all_dict,testdata_all_dict
         print "         latent_size: ",latent_size;
         print "         AA_win: ",AA_win;
         print "         nb_filters: ",nb_filters_generator;
-        print "         nb_layers: ",nb_layers;
+        print "         nb_layers: ",nb_layers_generator;
         print "         win_array: ",win_array;
         print "         fea_num: ",fea_num;
         print "         n_class: ",n_class;
-        generator = build_generator(latent_size,AA_win,nb_filters_generator,nb_layers,win_array,fea_num,n_class)
+        generator = build_generator(latent_size,AA_win,nb_filters_generator,nb_layers_generator,win_array,fea_num,n_class)
     generator.compile(optimizer=Adam(lr=adam_lr, beta_1=adam_beta_1),
                       loss='binary_crossentropy')
     
