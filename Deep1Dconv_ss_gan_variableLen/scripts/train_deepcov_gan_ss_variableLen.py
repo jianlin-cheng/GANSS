@@ -13,8 +13,6 @@ sys.path.insert(0, GLOBAL_PATH+'/lib/')
 from Data_loading import load_train_test_data_padding_with_interval
 from Model_training import DeepSS_1dconv_gan_variant_train_win_filter_layer_opt
 
-
-import sys
 if len(sys.argv) != 11:
           print 'please input the right parameters'
           sys.exit(1)
@@ -30,7 +28,10 @@ AA_win=int(sys.argv[8]) #15
 feature_dir = sys.argv[9]
 outputdir = sys.argv[10]
 
-#nb_layers= 10
+#inter = 15
+#nb_filters = 5
+#nb_layers_generator= 2
+#nb_layers_discriminator= 2
 #filtsize= '10'
 #out_epoch= 100
 #batch_size= 1000
@@ -80,7 +81,5 @@ testdata_all_dict_padding = load_train_test_data_padding_with_interval(val_dataf
 
 
 start_time = time.time()
-DeepSS_1dconv_gan_variant_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_dict_padding,train_datafile,test_datafile,val_datafile,CV_dir,AA_win,feature_dir,"deepss_1dconv_gan",out_epoch,batch_size,filetsize_array,nb_filters,nb_layers_generator,nb_layers_discriminator,lib_dir)
+DeepSS_1dconv_gan_variant_train_win_filter_layer_opt(data_all_dict_padding,testdata_all_dict_padding,train_datafile,test_datafile,val_datafile,CV_dir,AA_win,feature_dir,"deepss_1dconv_varigan",out_epoch,inter, 5000 ,batch_size,filetsize_array,nb_filters,nb_layers_generator,nb_layers_discriminator,lib_dir)
 print("--- %s seconds ---" % (time.time() - start_time))
-
-

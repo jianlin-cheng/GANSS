@@ -178,6 +178,53 @@ def build_discriminator(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class):
     return Model(input=[DeepSS_input], output=[fake, aux])
 
 
+def build_discriminator_postGAN(AA_win,nb_filters,nb_layers,win_array,fea_num,n_class):
+    # build a relatively standard conv net, with LeakyReLUs as suggested in
+    # the reference paper
+    
+    #latent_size = 100
+    #nb_filters = 10
+    #nb_layers = 10
+    #filter_sizes=[5,11,15,20]
+    #win_array=[10]
+    #AA_win = 15
+    #fea_num = 20
+    #nb_layers=10
+    
+    DeepSS_input_shape =(AA_win,fea_num)
+    #nb_filters = 10
+    #nb_layers = 10
+    #filter_sizes=[5,11,15,20]
+    filter_sizes=win_array
+    DeepSS_input = Input(shape=DeepSS_input_shape)
+    DeepSS_convs = []
+    for fsz in filter_sizes:
+        DeepSS_conv = DeepSS_input
+        for i in range(0,nb_layers):
+            DeepSS_conv = _conv_bn_relu1D(nb_filter=nb_filters, nb_row=fsz, subsample=1)(DeepSS_conv)
+        #DeepSS_conv = remove_1d_padding(ktop=ktop_node)(DeepSS_conv) ## remove the padding rows because they don't have targets
+        #no need here, because if target is 0, the cross-entropy is zero, error will be not passed
+        DeepSS_conv = Flatten()(DeepSS_conv)
+        DeepSS_convs.append(DeepSS_conv)
+    
+    if len(filter_sizes)>1:
+        DeepSS_flatten_out = Merge(mode='average')(DeepSS_convs)
+    else:
+        DeepSS_flatten_out = DeepSS_convs[0]  
+    
+    
+    # first output (name=generation) is whether or not the discriminator
+    # thinks the image that is being shown is fake, and the second output
+    # (name=auxiliary) is the class that the discriminator thinks the image
+    # belongs to.
+    #fake = Dense(1, activation='sigmoid', name='generation')(DeepSS_flatten_out)
+    aux = Dense(n_class, activation='softmax', name='auxiliary')(DeepSS_flatten_out)
+    
+    #DeepSS_CNN = Model(input=[DeepSS_input], output=[fake, aux])
+    #DeepSS_CNN.summary()
+    return Model(input=[DeepSS_input], output=[aux])
+
+
 def build_generator_variant1D(latent_size,nb_filters,nb_layers,win_array,fea_num,n_class): # has problem
     # we will map a pair of (z, L), where z is a latent vector and L is a
     # label drawn from P_c, to image space (..., 1, 28, 28)
