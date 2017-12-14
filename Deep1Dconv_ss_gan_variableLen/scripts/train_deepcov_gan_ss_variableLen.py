@@ -36,8 +36,8 @@ outputdir = sys.argv[10]
 #out_epoch= 100
 #batch_size= 1000
 #AA_win=15
-#feature_dir = '/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/Deep1Dconv_ss/features_win15_no_atch_aa'
-#outputdir = '/storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/Deep1Dconv_ss_gan/Parameter_tunning_win15_no_atch_aa/test'
+#feature_dir = '/storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/'
+#outputdir = '/storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/results/'
 
 
 test_datafile=GLOBAL_PATH+'/GANSS_Datasets/adj_dncon-test.lst'
