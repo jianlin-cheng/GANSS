@@ -146,6 +146,36 @@ Note:
 (4) Which metric is best to stop the training? Accuracy or Reconstruction error?
 
 
+(c) Evaluate GANSS on 15 window feature without atchley and aa
+```
+mkdir /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/final_gan_model_evaluation
+THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/predict_deepcov_ss_gan.py /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/model-train-discriminator-deepss_1dconv_gan.hdf5  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/final_gan_model_evaluation
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/filters15_layers2_batch1000_ftsize10/final_gan_model_evaluation
+head */*
+```
+
+(d) Get  post-GAN model from GANSS on 15 window feature without atchley and aa
+```
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts
+*** /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/
+THEANO_FLAGS=floatX=float32,device=cpu python get_postGAN_discriminator_model.py /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/model-train-discriminator-deepss_1dconv_gan.hdf5 15 15 2 10 21 3  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/model-train-discriminator-deepss_1dconv_postgan.hdf5
+```
+
+(e) Evalauting GANSS (post-GAN ) on 15 window feature without atchley and aa
+```
+mkdir /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/final_postgan_model_evaluation
+THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/predict_deepcov_ss_postgan.py /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/model-train-discriminator-deepss_1dconv_postgan.hdf5  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa  /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/final_postgan_model_evaluation
+cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/filters15_layers2_batch1000_ftsize10/final_postgan_model_evaluation
+head */*
+```
+
+
+(f) Finetuning GANSS (post-GAN ) on 15 window feature without atchley and aa
+```
+mkdir /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/filters15_layers2_batch1000_ftsize10/finetune_postgan_model_training
+THEANO_FLAGS=floatX=float32,device=cpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/scripts/finetune_deepcov_postgan_ss.py 15 2 2  10 50 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results/filters15_layers2_batch1000_ftsize10/finetune_postgan_model_training /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan/results//filters15_layers2_batch1000_ftsize10/model-train-discriminator-deepss_1dconv_postgan.hdf5
+```
+
 **(C) Start tunning parameter of GANSS** 
 
 Note: start tunning the GANSS network  on win15
@@ -219,6 +249,64 @@ cd /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen
 source /group/bdm/tools/keras_virtualenv/bin/activate
 module load cuda/cuda-8.0
 module load R/R-3.3.1
-THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/train_deepcov_gan_ss_variableLen.py 15 5 2 10 100 1000 15  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win15_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/results/
+THEANO_FLAGS=floatX=float32,device=gpu python /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/train_deepcov_gan_ss_variableLen.py 15 5 2 2 6 50 100 1  /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/ /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/results/
+```
+
+
+
+**(E) Start tunning parameter of variable-length GANSS** 
+
+Note: start tunning the variable-length GANSS network  on win1
+
+(1) Tunning filter size
+
+```
+mkdir -p /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_network_filtersize_tune.pl /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/ /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_network_filtersize_tune_cpu.pl /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/ /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_submit_sbatch.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_scripts  0 100 
+
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_para_tune_summarize_filter_conv.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/filter_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+
+```
+
+(2) Tunning generator layer size
+
+```
+mkdir -p /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersGen_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersGen_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_network_layersGen_tune_cpu.pl /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersGen_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersGen_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_submit_sbatch.pl  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersGen_size_tunning_scripts  0 30 
+
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_para_tune_summarize_layers_conv_new.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layers_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+
+```
+
+
+(3) Tunning discriminator layer size
+
+```
+mkdir -p /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersDis_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersDis_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_network_layersDis_tune_cpu.pl /storage/htc/bdm/jh7x3/GANSS/GANSS_Datasets/features_win1_no_atch_aa/  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersDis_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersDis_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_submit_sbatch.pl  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layersDis_size_tunning_scripts  0 30 
+
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_para_tune_summarize_layers_conv_new.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/layers_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win1_no_atch_aa/parameter_tunning_summary
+
+```
+
+
+(4) Tunning kernel size
+
+```
+mkdir -p /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_network_kernelsize_tune.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/GANSS_Datasets/features_win15_no_atch_aa/  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_results  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_scripts
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_submit_sbatch.pl  /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_scripts  0 30 
+
+
+perl /storage/htc/bdm/jh7x3/GANSS/Deep1Dconv_ss_gan_variableLen/scripts/parameter_tune_scripts/P1_para_tune_summarize_kernel_width_conv_new.pl /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/kernel_size_tunning_results /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
+** /storage/htc/bdm/Collaboration/jh7x3/DeepCov_SS_SA_project/GANSS/Deep1Dconv_ss_gan_variableLen/results/Parameter_tunning_win15_no_atch_aa/parameter_tunning_summary
+
 ```
 
