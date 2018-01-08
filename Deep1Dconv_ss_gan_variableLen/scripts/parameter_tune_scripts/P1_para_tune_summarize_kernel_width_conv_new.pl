@@ -28,7 +28,7 @@ foreach $dir (sort @subdirs)
   {
     next;
   }
-  $para = substr($dir,index($dir,'filter5_layers5_inter15_optnadam_ftsize')+length('filter5_layers5_inter15_optnadam_ftsize'));
+  $para = substr($dir,index($dir,'_ftsize')+length('_ftsize'));
   print "Processing kernel size $para\n";
   $train_results = "$result_dir/$dir/train_val_test.loss_q3_sov_history_summary";
   
@@ -64,7 +64,7 @@ foreach $dir (sort @subdirs)
       $sov_val = $score;
     }
     
-    if($dataset eq 'Validation' and $metric eq 'Loss')
+    if($dataset eq 'Validation' and $metric eq 'Recon_Err')
     {
       $loss_val = $score;
     }
@@ -80,7 +80,7 @@ foreach $dir (sort @subdirs)
       $sov_train = $score;
     }
     
-    if($dataset eq 'Train' and $metric eq 'Loss')
+    if($dataset eq 'Train' and $metric eq 'Recon_Err')
     {
       $loss_train = $score;
     }
@@ -90,12 +90,12 @@ foreach $dir (sort @subdirs)
   
   print OUT "Kernel_width\t$para\tQ3\t$q3_train\n";
   print OUT "Kernel_width\t$para\tSOV\t$sov_train\n";
-  print OUT "Kernel_width\t$para\tLoss\t$loss_train\n";
+  print OUT "Kernel_width\t$para\tRecon_Err\t$loss_train\n";
   
   
   print OUT2 "Kernel_width\t$para\tQ3\t$q3_val\n";
   print OUT2 "Kernel_width\t$para\tSOV\t$sov_val\n";
-  print OUT2 "Kernel_width\t$para\tLoss\t$loss_val\n";
+  print OUT2 "Kernel_width\t$para\tRecon_Err\t$loss_val\n";
   
   
 }

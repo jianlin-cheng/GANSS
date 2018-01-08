@@ -117,7 +117,7 @@ sub generate_feature_for_convolution {
 	my @trainlist = @{ $trlist_ref };
 	foreach (@trainlist){
 		if ($count/@trainlist*100 > $percent){
-			print STDERR "$percent % completed (train).\n";
+			#print STDERR "$percent % completed (train).\n";
 			$percent += 50;
 		}
 		$count++;
@@ -143,7 +143,7 @@ sub generate_feature_for_convolution {
       	close OUT or return "err: newDN: Couldn't close file $TFfile\n";
 		}
 	}
-	print STDERR "100% training data completed.\n";
+	#print STDERR "100% training data completed.\n";
 
 	################################################################
 	##	Generating Testing File
@@ -158,7 +158,7 @@ sub generate_feature_for_convolution {
 	my @testlist = @{ $telist_ref };
 	foreach (@testlist){
 		if ($count/@testlist*100 > $percent){
-			print STDERR "$percent % completed (test).\n";
+			#print STDERR "$percent % completed (test).\n";
 			$percent += 50;
 		}
 		$count++;
@@ -184,7 +184,7 @@ sub generate_feature_for_convolution {
       	close OUT or return "err: newDN: Couldn't close file $TFfile\n";
 		}
 	}
-	print STDERR "100% testing data completed.\n";
+	#print STDERR "100% testing data completed.\n";
 }
 
 
@@ -218,7 +218,7 @@ sub newDN {
 	my @trainlist = @{ $trlist_ref };
 	foreach (@trainlist){
 		if ($count/@trainlist*100 > $percent){
-			print STDERR "$percent % completed.\n";
+			#print STDERR "$percent % completed.\n";
 			$percent += 50;
 		}
 		$count++;
@@ -249,7 +249,7 @@ sub newDN {
 	}
 	close OUT or return "err: newDN: Couldn't close file $TFfile\n";
 
-	print STDERR "100% completed.\n";
+	#print STDERR "100% completed.\n";
 
 	NEXT1:
 	################################################################
@@ -374,7 +374,7 @@ sub all_testfeatures {
 	# Generates a test file for each protein in the list
 	foreach my $prot (@list){
 		if ($count/@list*100 > $percent){
-			print STDERR "$percent % completed.\n";
+			#print STDERR "$percent % completed.\n";
 			$percent += 50;
 		}
 		$count++;
@@ -403,7 +403,7 @@ sub all_testfeatures {
 		push (@errlines, $err) if (check_err($err));
 	}
 
-	print STDERR "100% completed.\n";
+	#print STDERR "100% completed.\n";
 	# Returns error messages that were encountered during process
 	return @errlines;
 }
@@ -742,6 +742,7 @@ sub features {
 		push (@printarray, @seqfeat) if ($seq);
 
 		# Adds PSSM related features
+    #print "Length of pssm: ",@pssmfeat."\n";
 		push (@printarray, @pssmfeat) if ($pssm);
 
 		# Adds atchley features
@@ -1017,7 +1018,7 @@ sub test_DN {
 	# Makes prediction for each prot in input list
 	foreach my $prot (@list){
 		if ($count/$length*100 > $percent && $percent < 100){
-			print STDERR "$percent % complete.\n";
+			#print STDERR "$percent % complete.\n";
 			$percent += 50;
 		}
 		$count++;
@@ -1038,7 +1039,7 @@ sub test_DN {
 		`python2 ./feat-2-npy.py $featfile $npy`;
 		my $output = `python2 ./testDN.py $npy $model $predfile $probfile $targ`;
 	}
-	print STDERR "100% complete.\n";
+	#print STDERR "100% complete.\n";
 
 	`rm -r $npydir`;
 
@@ -1106,7 +1107,7 @@ sub all_dnss_files {
 	my $percent = 0;
 	foreach my $prot (@list){
 		if ($count/@list*100 > $percent && $percent < 100){
-			print "$percent % complete.\n";
+			#print "$percent % complete.\n";
 			$percent += 50;
 		}
 		$count++;
@@ -1135,7 +1136,7 @@ sub all_dnss_files {
 			print "all_dnss_files: $prot has different size seq and ss!\n";
 		}
 	}
-	print "100% complete!\n";
+	#print "100% complete!\n";
 }
 
 ################################################################
@@ -1271,7 +1272,7 @@ sub score_dnss {
 	# No scorefile is made if no tag is specified
 	my $scorefile = "";
 	if ($tag){ $scorefile = "$dnssdir/$tag.score"; }
-	print "Saving to $scorefile\n";
+	#print "Saving to $scorefile\n";
 	# Predictions are scored
 	my @results = all_score ($ssadir, $dnssdir, $scorefile, $list_ref);
 	return @results;	
@@ -1305,7 +1306,7 @@ sub all_score {
 	my $percent = 0;
 	foreach my $prot (@list) {
 		if ($count/@list*100 > $percent && $percent < 100){
-			print STDERR "$percent % completed.\n";
+			#print STDERR "$percent % completed.\n";
 			$percent += 50;
 		}
 		$count ++;
@@ -1384,7 +1385,7 @@ sub all_score {
 		$scoreout .= "!Sov = $thisSov\n";
 		$Scorelines{$prot} = $scoreout;
 	}
-	print "100% complete!\n";
+	#print "100% complete!\n";
 
 	# Averages are calculated
 	my $Qtotscore = $Qmatch/$Qtot*100;

@@ -131,7 +131,7 @@ test_acc /= acc_num
 test_loss /= loss_num 
 
 args_str ="perl " + GLOBAL_PATH + "/lib/evaluation_dnss_prediction.pl -pred "  + predir +  " -out " + dnssdir + " -list " + test_list + " -tag " + tag
-print "Running "+ args_str
+#print "Running "+ args_str
 args = shlex.split(args_str)
 pipe = subprocess.Popen(args, stdin=subprocess.PIPE)
 

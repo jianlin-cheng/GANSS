@@ -57,7 +57,7 @@ my @testlist = split (/\n/, $protlist);
 my @dirarray = ($predir);
 all_dnss_files(\@dirarray, $pssmdir, $dnssdir, \@testlist, $thistag);
 
-timeprint ($logfile, "Evaluating predictions...");
+#timeprint ($logfile, "Evaluating predictions...");
 my ($AvgQ3, $AvgSov) = score_dnss($dnssdir, \@testlist, $thistag);
 next if check_err($AvgQ3, $logfile);
 
