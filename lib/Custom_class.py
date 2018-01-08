@@ -129,15 +129,6 @@ class Reshape_gan_reduce2(Layer):
         return dict(list(base_config.items()) + list(config.items()))
 
 class Reshape_gan_expand(Layer):
-    
-    """ 
-    Reshapes the Permuted CNN output so that it can be feed to the RNNs.
-<<<<<<< HEAD
-    Flattens the last two dims. 3D to 2D , (None, 315) -> (10,5,315)
-=======
-    Flattens the last two dims. 3D to 2D , (None, 315) -> (10，5,315)
->>>>>>> 182124f485e46b74dea66fff01e0da26445c6307
-    """
     def __init__(self,  batchsize,seqlen, **kwargs):
         self.batch_size = batchsize
         self.seq_len = seqlen
